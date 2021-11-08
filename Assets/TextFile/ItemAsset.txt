@@ -1,0 +1,15 @@
+//(Armor Weapon)String itemName,Itemtype itemType, int str,int agi, int intel, int dmg, int def, int increase_HP, int increase_MP,int sell,string desc
+//(UseItem)String itemName,Itemtype itemType, int Hpup,int Mpup,0, 0,0, 0,0,int sell,string desc
+//
+Chain Armor,ArmorWeapon,10,3,5,0,50,100,0,1000,Chain Mail
+Boots,ArmorWeapon,1,5,0,0,20,0,0,200,Leather Boots
+Health Potion,UseItem,30,0,0,0,0,0,0,100,Health Potion
+Mana Potion,UseItem,0,30,0,0,0,0,0,100,Mana Potion
+Coin,Coin,0,0,0,0,0,0,0,100,Coin
+Warior Armor,BodyArmor,10,3,5,0,50,100,0,1000,Armor for Warior
+Warior Helm,HeadArmor,10,3,5,0,50,100,0,1000,Helm for Warior
+Warior Glove,HandArmor,10,3,5,0,50,100,0,1000,Glove for Warior
+Warior Boots,FootArmor,10,3,5,0,50,100,0,1000,Boots for Warior
+Warior Shield,Shield,10,3,5,0,50,100,0,1000,Shield for Warior
+Warior Sword,Weapon,10,3,5,0,50,100,0,1000,Sword for Warior
+Warior Ring,Accessories,10,3,5,0,50,100,0,1000,Ring for Warior

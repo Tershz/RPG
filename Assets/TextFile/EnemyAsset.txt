@@ -1,0 +1,5 @@
+//(Enemy)String Name,bool phisicalDef,bool magicDef
+//
+Scorpion,true,false
+Spider,false,true
+Snake,false,false
