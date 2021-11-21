@@ -30,15 +30,25 @@ public class UI_Equip : MonoBehaviour
     }
     private void setItem(Items item)
     {
+        if (equpmentItem.itemAttribute != null)
+        {
+            newPlayerControl.resetEquip(equpmentItem.itemAttribute.MaxHP, equpmentItem.itemAttribute.MaxHP, equpmentItem.itemAttribute.MaxMP, equpmentItem.itemAttribute.M_Attack, equpmentItem.itemAttribute.P_Attack, equpmentItem.itemAttribute.Luck);
+        }
+
         equpmentItem.itemName = item.itemName;
         equpmentItem.amount = item.amount;
         equpmentItem.index = item.index;
-        equpmentItem.equiped = item.equiped;
         equpmentItem.itemAttribute = item.itemAttribute;
         equpmentItem.itemType = item.itemType;
         equpmentItem.level = item.level;
         equpmentLV.gameObject.SetActive(true);
         equpmentLV.text ="LV."+ item.level;
+        equpmentItem.equiped = item.equiped;
+        if(newPlayerControl.equipped != true)
+        {
+            newPlayerControl.changeEquip(item.itemAttribute.MaxHP, item.itemAttribute.MaxMP, item.itemAttribute.Defense, item.itemAttribute.M_Attack, item.itemAttribute.P_Attack, item.itemAttribute.Luck);
+        }
+        newPlayerControl.equipped = true;
     }
     void Update()
     {

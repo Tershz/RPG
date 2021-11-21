@@ -11,6 +11,7 @@ TagManager:
   - Attribute
   - Accessories1
   - Accessories2
+  - NPC
   layers:
   - Default
   - TransparentFX

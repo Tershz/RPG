@@ -21,7 +21,7 @@ public class UI_Info : MonoBehaviour
     {
         if(hide == false)
         {
-            infoObj.transform.position = new Vector3(infoObj.transform.position.x, -130, infoObj.transform.position.z);
+            infoObj.transform.position = new Vector3(infoObj.transform.position.x, -137, infoObj.transform.position.z);
             hideText.text = "Show";
             hide = true;
         }

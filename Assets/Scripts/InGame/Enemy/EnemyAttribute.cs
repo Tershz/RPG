@@ -51,6 +51,7 @@ public class EnemyAttribute : MonoBehaviour
                 battleController.buttonParent.GetComponent<ButtonControll>().enemySelected = false;
                 Debug.Log(gameObject.name+" Child");
             }
+            battleController.playerControl.cekQuest(enemyName);
             Debug.Log(gameObject.name+" Die");
             gameObject.SetActive(false);
             //Min Total Enemy Alive
@@ -76,7 +77,6 @@ public class EnemyAttribute : MonoBehaviour
             {
                 battleController.setNotification("You killed the " + enemyName + ".\nYou get " + exp + " exp and " + star + " stars.");
             }
-
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -8,14 +9,15 @@ public class VolumeSettings : MonoBehaviour
 {
     public Slider BGMSlider;
     public Slider SFXSlider;
+    public Slider MuteSlider;
 
     private static float musicVolume = 1f;
     private static float SFXVolume = 1f;
 
     //Source Audio
     public AudioSource audioSource;
-    public AudioSource SFXSource1;
-    public AudioSource SFXSource2;
+    /*public AudioSource SFXSource1;
+    public AudioSource SFXSource2;*/
     
     float volumeValue;
     float SFXValue;
@@ -26,8 +28,8 @@ public class VolumeSettings : MonoBehaviour
         }
         Time.timeScale = 1;
         audioSource.volume = musicVolume;
-        SFXSource1.volume = SFXVolume;
-        SFXSource2.volume = SFXVolume;
+        /*SFXSource1.volume = SFXVolume;
+        SFXSource2.volume = SFXVolume;*/
 
         BGMSlider.value = musicVolume;
         SFXSlider.value = SFXVolume;
@@ -36,8 +38,8 @@ public class VolumeSettings : MonoBehaviour
     void Update(){
         
         audioSource.volume = musicVolume;
-        SFXSource1.volume = SFXVolume;
-        SFXSource2.volume = SFXVolume;
+        /*SFXSource1.volume = SFXVolume;
+        SFXSource2.volume = SFXVolume;*/
     }
 
     public void updateVolume(float volume)
@@ -45,7 +47,7 @@ public class VolumeSettings : MonoBehaviour
         musicVolume = volume;
         volumeValue = volume;
     }
-    public void updateVolumeText(Text volumeText)
+    public void updateVolumeText(TextMeshProUGUI volumeText)
     {
          volumeValue = volumeValue * 100;
          volumeText.text = ((int)volumeValue).ToString();
@@ -56,15 +58,33 @@ public class VolumeSettings : MonoBehaviour
         SFXVolume = SFX;
         SFXValue = SFX;
     }
-    public void updateSFXText(Text SFXText)
+    public void updateSFXText(TextMeshProUGUI SFXText)
     {
         SFXValue = SFXValue * 100;
         SFXText.text = ((int)SFXValue).ToString();
+    } 
+    public void updateMuteText(TextMeshProUGUI MuteText)
+    {
+        if (MuteSlider.value == 0)
+        {
+            MuteText.text = "OFF";
+        }
+        else
+        {
+            MuteText.text = "ON";
+        }
     }
 
     public void updateAll()
     {
-        audioSource.Stop();
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+        else
+        {
+            audioSource.Play();
+        }
     }
     
     

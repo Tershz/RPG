@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour
@@ -57,6 +58,12 @@ public class PlayerControl : MonoBehaviour
     private Sprite Accessories;
     private Sprite Shield;
     private Sprite Weapon;
+    public bool equipped;
+
+
+    [Header("NPC")]
+    public GameObject NPC_obj;
+    private bool inRangeNPC = false;
 
 
     public void Awake()
@@ -138,6 +145,11 @@ public class PlayerControl : MonoBehaviour
                 /*SpawnControl.canBattle = false;*/
             }
         }
+        else if (collider.tag == "NPC")
+        {
+            inRangeNPC = true;
+            Debug.Log("NPC: " + inRangeNPC);
+        }
         else
         {
             ItemWorld itemWorld = collider.GetComponent<ItemWorld>();
@@ -153,6 +165,14 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        if(collider.tag == "NPC")
+        {
+            inRangeNPC = false;
+            Debug.Log("NPC: " + inRangeNPC);
+        }
+    }
     private void setAttribute()
     {
         UI_PlayerAttribute newUIPlayerAttribute = UIPlayerAttribute.GetComponent<UI_PlayerAttribute>();
@@ -202,6 +222,8 @@ public class PlayerControl : MonoBehaviour
 
     public void Unequip(Items item)
     {
+        
+        resetEquip(item.itemAttribute.MaxHP, item.itemAttribute.MaxMP, item.itemAttribute.Defense, item.itemAttribute.M_Attack, item.itemAttribute.P_Attack, item.itemAttribute.Luck);
         item.itemName = null;
         item.amount = 0;
         item.equiped = false;
@@ -304,10 +326,54 @@ public class PlayerControl : MonoBehaviour
                     break;
             }
         }
-        inventory.EquipItem(items);
+        else
+        {
+            equipped = false;
+        }
+        if(items.itemType != Items.ItemType.UseItem)
+        {
+            inventory.EquipItem(items);
+        }
+        else
+        {
+            if(items.itemName == "Health Potion")
+            {
+                attribute.HP += 50;
+                inventory.useItem(items);
+            }
+            else
+            {
+                attribute.MP += 50;
+                foreach (Items temp in inventory.itemList)
+                {
+                    if (temp.itemName == items.itemName)
+                    {
+                        temp.amount -= 1;
+                    }
+                }
+            }
+        }
         
     }
-
+   
+    public void resetEquip(int maxHP, int maxMP, int def, int MAtck, int PAtck, int luck)
+    {
+        attribute.MaxHP -= maxHP;
+        attribute.MaxMP -= maxMP;
+        attribute.defense -= def;
+        attribute.magicAttack -= MAtck;
+        attribute.phisicalAttack -= PAtck;
+        attribute.Luck -= luck;
+    }
+    public void changeEquip(int maxHP, int maxMP, int def, int MAtck, int PAtck, int luck)
+    {
+        attribute.MaxHP += maxHP;
+        attribute.MaxMP += maxMP;
+        attribute.defense += def;
+        attribute.magicAttack += MAtck;
+        attribute.phisicalAttack += PAtck;
+        attribute.Luck += luck;
+    }
     public void getDamage(int damage)
     {
         if (attribute.HP > 0)
@@ -330,6 +396,12 @@ public class PlayerControl : MonoBehaviour
     public void getItem(Items newItem)
     {
         inventory.AddItem(newItem);
+    }
+
+    public void cekQuest(string enemyName)
+    {
+        Debug.Log("Kill "+enemyName);
+        NPC_obj.GetComponent<NPC>().UpdateQuest(enemyName);
     }
 
     public void refreshInventory(Inventory inventory)
@@ -456,7 +528,10 @@ public class PlayerControl : MonoBehaviour
             case "InventoryButton":
                 OpenPlayerPanel('I', playerpanel.activeInHierarchy);
                 break;
-            case "EquipAttributeButton":
+            case "AttributeButton":
+                OpenPlayerPanel('E', playerpanel.activeInHierarchy);
+                break;
+            case "QuestButton":
                 OpenPlayerPanel('Q', playerpanel.activeInHierarchy);
                 break;
         }
@@ -464,7 +539,10 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
-        /*gameObject.GetComponent<PlayerAttribute>().HP = attribute.HP;*/
+        if (attribute.HP <= 0)
+        {
+            SceneManager.LoadScene(2);
+        }
         setAttribute();
         if (Time.timeScale == 1)
         {
@@ -486,7 +564,7 @@ public class PlayerControl : MonoBehaviour
         {
             OpenPlayerPanel('I', playerpanel.activeInHierarchy);
         }
-        else if (Input.GetKeyUp(KeyCode.Q))
+        else if (Input.GetKeyUp(KeyCode.Q) )
         {
             OpenPlayerPanel('Q', playerpanel.activeInHierarchy);
         }
@@ -502,6 +580,13 @@ public class PlayerControl : MonoBehaviour
         {
             OpenPlayerPanel('B', playerpanel.activeInHierarchy);
         }
+        else if(Input.GetKeyUp(KeyCode.Space) && inRangeNPC == true)
+        {
+            NPC_obj.GetComponent<NPC>().Interact();
+            Debug.Log("Get Quest");
+
+        }
+
 
     } 
 }

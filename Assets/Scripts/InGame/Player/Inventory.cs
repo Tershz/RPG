@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.XR.WSA.Input;
 
 public class Inventory : MonoBehaviour
 {
@@ -73,7 +72,7 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            TextMeshProUGUI money = GameObject.Find("Canvas").transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>(); ;
+            TextMeshProUGUI money = GameObject.Find("Canvas").transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>(); 
             int getMoney = Convert.ToInt32(money.text);
             Debug.Log("MoneyBefore:"+getMoney);
             getMoney += item.itemAttribute.SellPrice;
@@ -171,6 +170,10 @@ public class Inventory : MonoBehaviour
             i++;
         } while (IteminInventory = true || i <= itemList.Count - 1);
 
+    }
+    public void useItem(Items item)
+    {
+        
     }
 
     public List<Items> GetItemList()
